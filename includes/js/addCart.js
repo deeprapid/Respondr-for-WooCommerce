@@ -1,7 +1,6 @@
 var $ = jQuery;
 
 $(document).ready(function(){
-	console.log( 'addToCart' );
 	
 	var cartTotal = parseInt(respCartTotal);
 	

@@ -88,7 +88,63 @@ class respondrPiwik {
 		wp_localize_script( 'rsp_addCart', 'respCartTotal', $wooTotal );
 	}
 	
-	public function orderComplete() {
+	public function newOrder( $order_id ) {
+		global $woocommerce;
+		$WCorder = new WC_Order( $order_id );
+		
+		// ORDER ID
+		$order['id'] = $order_id;
+		
+		// ORDER TOTAL
+		$order['total'] = $WCorder->get_total();
+		
+		// TAX TOTAL
+		$taxTotal = $WCorder->get_tax_totals();
+		if( !empty( $taxTotal ) ):
+			$order['taxTotal'] = $WCorder->get_tax_totals();
+		else:
+			$order['taxTotal'] = 0;
+		endif;
+		
+		// SHIPPING TOTAL
+		$order['shipTotal'] = $WCorder->get_total_shipping();
+		
+		// SUB TOTAL
+		$order['subTotal'] = intval( $order['total'] ) - intval( $order['taxTotal'] ) -  intval( $order['shipTotal'] );
+		
+		// ITEMS
+		$items = $WCorder->get_items();
+		
+		
+		foreach( $items as $item ) {
+			$prodID = intval( $item['product_id'] );
+			$wooProd = new WC_Product( $prodID );
+			
+			// TITLE
+			$prod['title'] = get_the_title( $prodID );
+			
+			// CATS
+			$cats = wp_get_post_terms( $prodID, 'product_cat', array( 'fields' => 'names' ) );
+			$prod['cats'] = $cats[0];
+			
+			// PRICE
+			$prod['price'] = $wooProd->get_price();
+			
+			// SKU
+			$prod['sku'] = $wooProd->get_sku();
+			if( empty( $prodSku ) ){
+				$prod['sku'] = $prodID;
+			}
+			
+			// QTY
+			$prod['qty'] = $item['qty'];
+			
+			$order['items'][] = $prod;
+			
+		}
+		
+		wp_enqueue_script( 'rsp_newOrder', PLUGIN_URL.'/includes/js/newOrder.js', array( 'rsp_tracker' ), null, false );
+		wp_localize_script( 'rsp_newOrder', 'respOrder', $order );
 		
 	}
 	

@@ -42,7 +42,8 @@ class respondrMain {
 		add_action( 'user_register', array( $this, 'save_user' ) );
 		
 		// WOO ORDER
-		add_action( 'woocommerce_order_status_completed', array( $this, 'newOrder' ) );
+		//add_action( 'woocommerce_order_status_pending', array( $this, 'newOrder' ) );
+		
 		
 		// ADD TO CART
 		add_action( 'woocommerce_cart_updated', array( $this, 'addToCart' ) );
@@ -82,8 +83,13 @@ class respondrMain {
 		if( 'product' == get_post_type() && !is_archive( 'product_cat' ) ){
 			$rpndr->viewProd();
 		}
+		
 		if( is_archive( 'product_cat' ) ) {
 			$rpndr->viewCat();
+		}
+		
+		if( is_page( 'Checkout' ) && isset( $_GET['order-received'] ) ) {
+			$rpndr->newOrder( $_GET['order-received'] );
 		}
 	}
 
