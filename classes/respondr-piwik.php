@@ -6,11 +6,37 @@ class respondrPiwik {
 	
 	}
 	
-	public function prodView( $id ) {
-		var_dump( $id );
+	public function viewProd() {
+		global $post, $woocommerce;
+		$wooProd = new WC_Product( $post->ID );
+		
+		// SKU
+		$prod['sku'] = $wooProd->get_sku();
+		if( empty( $prodSku ) ){
+			$prod['sku'] = $post->ID;
+		}
+		
+		// TITLE
+		$prod['title'] = $post->post_title;
+		
+		// CATS
+		$prod['cats'] = wp_get_post_terms( $post->ID, 'product_cat', array( 'fields' => 'names' ) );
+		
+		// PRICE
+		$prod['price'] = $wooProd->get_price();
+		
+		// IMG
+		$img = wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), 'full' );
+		$prod['img'] = $img[0];
+		
+		// DESC
+		$prod['desc'] = $post->post_content;
+		
+		wp_enqueue_script( 'rsp_viewProd', PLUGIN_URL.'/includes/js/viewProd.js', array( 'rsp_tracker' ), null, false );
+		wp_localize_script( 'rsp_viewProd', 'respProd', $prod );
 	}
 	
-	public function catView ( $id ) {
+	public function catView( $id ) {
 		var_dump( $id );
 	}
 	
@@ -27,9 +53,7 @@ class respondrPiwik {
 			
 			// CATS
 			$prod['cats'] = wp_get_post_terms( $_product->id, 'product_cat', array( 'fields' => 'names' ) );
-			foreach( $cats as $cat ) {
-				$prodCats[] = $cat;
-			}
+			
 			
 			// PRICE
 			$prod['price'] = $wooProd->get_price();

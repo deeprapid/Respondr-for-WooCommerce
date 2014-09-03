@@ -27,6 +27,7 @@ require_once( 'classes/respondr-piwik.php' );
 class respondrMain {
 	
 	function __construct() {
+		
 		new respondrEnqueue();
 		new respondrSettings();
 		
@@ -45,6 +46,10 @@ class respondrMain {
 		
 		// ADD TO CART
 		add_action( 'woocommerce_cart_updated', array( $this, 'addToCart' ) );
+		
+		// VIEW PROD
+		add_action('wp', array( $this, 'prodView' ) );
+		
 
 	}
 	
@@ -65,10 +70,20 @@ class respondrMain {
 		$rpndr->orderComplete( $order_id );
 	}
 	
+	// ADD TO CART
 	function addToCart() {
 		global $rpndr;
 		$rpndr->addToCart();
 	}
+	
+	// VIEW PROD
+	function prodView(){
+		if( 'product' == get_post_type() ){
+			global $rpndr;
+			$rpndr->viewProd();
+		}
+	}
+
 	
 }
 
