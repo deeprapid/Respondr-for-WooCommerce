@@ -1,2 +1,0 @@
-Respondr-for-WooCommerce
-========================
