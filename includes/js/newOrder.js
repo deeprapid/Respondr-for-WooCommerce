@@ -14,13 +14,17 @@ $(document).ready(function(){
 			itemPrice,
 			itemQty
 		]);	
-	})
+		
+	});
+	
 	
 	// NEW ORDER
 	var total = parseInt( respOrder.total ),
 	subTotal = parseInt( respOrder.subTotal ),
 	shipTotal = parseInt( respOrder.shipTotal ),
 	taxTotal = parseInt( respOrder.taxTotal );
+	
+	_paq.push(['trackEcommerceCartUpdate', total]);
 	
 	_paq.push(['trackEcommerceOrder',
 		respOrder.id.toString(), // (required) Unique Order ID

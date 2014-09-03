@@ -143,6 +143,7 @@ class respondrPiwik {
 			
 		}
 		
+		
 		wp_enqueue_script( 'rsp_newOrder', PLUGIN_URL.'/includes/js/newOrder.js', array( 'rsp_tracker' ), null, false );
 		wp_localize_script( 'rsp_newOrder', 'respOrder', $order );
 		
