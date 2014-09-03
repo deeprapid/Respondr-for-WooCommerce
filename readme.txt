@@ -1,5 +1,5 @@
 === Respondr.io for WooCommerce ===
-Contributors: guavaworks
+Contributors: respondr
 Tags: responder, respondr.io, abandoned cart, woocommerce, abandoned shopping cart
 Requires at least: 3.9
 Tested up to: 3.9.2
