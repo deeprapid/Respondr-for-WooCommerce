@@ -20,7 +20,8 @@ class respondrPiwik {
 		$prod['title'] = $post->post_title;
 		
 		// CATS
-		$prod['cats'] = wp_get_post_terms( $post->ID, 'product_cat', array( 'fields' => 'names' ) );
+		$cats = wp_get_post_terms( $post->ID, 'product_cat', array( 'fields' => 'names' ) );
+		$prod['cats'] = $cats[0];
 		
 		// PRICE
 		$prod['price'] = $wooProd->get_price();
@@ -36,8 +37,13 @@ class respondrPiwik {
 		wp_localize_script( 'rsp_viewProd', 'respProd', $prod );
 	}
 	
-	public function catView( $id ) {
-		var_dump( $id );
+	public function viewCat() {
+		if( get_query_var( 'product_cat' ) ) {
+			$cat['cat'] = get_query_var( 'product_cat' );
+			
+			wp_enqueue_script( 'rsp_viewCat', PLUGIN_URL.'/includes/js/viewCat.js', array( 'rsp_tracker' ), null, false );
+			wp_localize_script( 'rsp_viewCat', 'respCat', $cat );
+		}
 	}
 	
 	public function addToCart() {
@@ -97,14 +103,12 @@ class respondrPiwik {
 	}
 	
 	public function userLogin( $user_login, $user ) {
-		/*
-wp_enqueue_script( 'rsp_userSave', PLUGIN_URL.'/includes/js/saveUser.js', array( 'rsp_tracker' ), null, false );
+		wp_enqueue_script( 'rsp_userSave', PLUGIN_URL.'/includes/js/saveUser.js', array( 'rsp_tracker' ), null, false );
 		wp_localize_script( 'rsp_userSave', 'respUser', array( 
 			'email' 	 => $user->user_email, 
 			'first_name' => $user->user_firstname,
 			'last_name'  => $user->user_lastname
 		) );
-*/
 	}
 }
 

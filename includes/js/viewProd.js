@@ -1,7 +1,7 @@
 var $ = jQuery;
 
 $(document).ready(function(){
-	var price = parseInt(respProd.price)
+	var price = parseInt(respProd.price);
 	_paq.push(['setEcommerceView',
 		respProd.sku.toString(), // (required) SKU: Product unique identifier
 		respProd.title, // (optional) Product name
@@ -10,7 +10,5 @@ $(document).ready(function(){
 		respProd.img, // (optional) Product image URL
 		respProd.desc, // (optional) Product description
 	]);
-
-	_paq.push(['trackPageView']);
 	
 });

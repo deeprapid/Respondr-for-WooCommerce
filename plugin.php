@@ -38,7 +38,7 @@ class respondrMain {
 		// USER ACTIONS
 		$current_user = wp_get_current_user();
 		if( !empty( $current_user->user_email ) ) { $this->user_login( '', $current_user ); };
-		add_action( 'wp_login', array( $this, 'user_login' ), 10, 2 );
+		
 		add_action( 'user_register', array( $this, 'save_user' ) );
 		
 		// WOO ORDER
@@ -78,9 +78,12 @@ class respondrMain {
 	
 	// VIEW PROD
 	function prodView(){
-		if( 'product' == get_post_type() ){
-			global $rpndr;
+		global $rpndr;
+		if( 'product' == get_post_type() && !is_archive( 'product_cat' ) ){
 			$rpndr->viewProd();
+		}
+		if( is_archive( 'product_cat' ) ) {
+			$rpndr->viewCat();
 		}
 	}
 

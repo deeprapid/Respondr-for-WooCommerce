@@ -8,5 +8,4 @@ $(document).ready(function(){
 		'', // Contact's company. Set to empty if n/a
 		'', // Contact's phone number. Set to empty if n/a
 	]);
-	_paq.push(['trackPageView']);
 });
