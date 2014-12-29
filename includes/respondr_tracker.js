@@ -1,6 +1,6 @@
 var _paq = _paq || [];
     (function(){ var u=(("https:" == document.location.protocol) ? "https://analytics.respondr.io/" : "http://analytics.respondr.io/");
-    _paq.push(['setSiteId', parseInt(respondrVars.idsite)]);
+    _paq.push(['setSiteId', respondrVars.idsite.toString()]);
     _paq.push(['setTrackerUrl', u+'respondr.php']);
     _paq.push(['trackPageView']);
     _paq.push(['enableLinkTracking']);
