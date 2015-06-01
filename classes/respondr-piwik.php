@@ -38,11 +38,10 @@ class respondrPiwik {
 	}
 	
 	public function viewCat() {
-		if( get_query_var( 'product_cat' ) ) {
-			$cat['cat'] = get_query_var( 'product_cat' );
-			
-			wp_enqueue_script( 'rsp_viewCat', PLUGIN_URL.'/includes/js/viewCat.js', array( 'rsp_tracker' ), null, false );
-			wp_localize_script( 'rsp_viewCat', 'respCat', $cat );
+		if( get_query_var('product_cat') ) {
+			$cat['cat'] = get_query_var('product_cat');
+			wp_enqueue_script('rsp_viewCat', PLUGIN_URL.'/includes/js/viewCat.js', array('rsp_tracker'), null, false);
+			wp_localize_script('rsp_viewCat', 'respCat', $cat);
 		}
 	}
 	
@@ -77,15 +76,14 @@ class respondrPiwik {
 			
 		}
 		
-		
 		$wooTotal = $woocommerce->cart->get_cart_total();
-		$wooTotal = str_replace( '<span class="amount">', '', $wooTotal );
-		$wooTotal = str_replace( '</span>', '', $wooTotal );
-		$wooTotal = preg_replace( '/&#36;/', '', $wooTotal );
+		$wooTotal = str_replace('<span class="amount">', '', $wooTotal);
+		$wooTotal = str_replace('</span>', '', $wooTotal);
+		$wooTotal = preg_replace('/&#36;/', '', $wooTotal);
 		
-		wp_enqueue_script( 'rsp_addCart', PLUGIN_URL.'/includes/js/addCart.js', array( 'rsp_tracker' ), null, false );
-		wp_localize_script( 'rsp_addCart', 'respCart', $cartProds );
-		wp_localize_script( 'rsp_addCart', 'respCartTotal', $wooTotal );
+		wp_enqueue_script('rsp_addCart', PLUGIN_URL.'/includes/js/addCart.js', array('rsp_tracker'), null, false);
+		wp_localize_script('rsp_addCart', 'respCart', $cartProds);
+		wp_localize_script('rsp_addCart', 'respCartTotal', $wooTotal);
 	}
 	
 	public function newOrder( $order_id ) {
@@ -159,14 +157,12 @@ class respondrPiwik {
 		) );
 	}
 	
-	public function userLogin( $user_login, $user ) {
-		wp_enqueue_script( 'rsp_userSave', PLUGIN_URL.'/includes/js/saveUser.js', array( 'rsp_tracker' ), null, false );
-		wp_localize_script( 'rsp_userSave', 'respUser', array( 
+	public function userLogin($user_login, $user) {
+		wp_enqueue_script('rsp_userSave', PLUGIN_URL.'/includes/js/saveUser.js', array('rsp_tracker'), null, false);
+		wp_localize_script('rsp_userSave', 'respUser', array(
 			'email' 	 => $user->user_email, 
 			'first_name' => $user->user_firstname,
 			'last_name'  => $user->user_lastname
-		) );
+		));
 	}
 }
-
-?>
