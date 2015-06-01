@@ -1,24 +1,11 @@
-var $ = jQuery;
-
-$(document).ready(function(){
-	
-	var cartTotal = parseInt(respCartTotal);
-	
-	$.each( respCart, function(key, value){
-	
-		var itemPrice = parseInt(value.price),
-		itemQty = parseInt(value.qty);
-	
-		_paq.push(['addEcommerceItem',
-			value.sku.toString(),
-			value.title,
-			value.cats,
-			itemPrice,
-			itemQty
-		]);	
-	})
-	
-	
-	_paq.push(['trackEcommerceCartUpdate', cartTotal]);
-	
+jQuery(document).ready(function($) {
+	$.each(respCart, function(key, value) {
+		_raq.push(['addEcommerceItem', {
+            sku: value.sku.toString(),
+            name: value.title,
+            category: value.cats,
+            price: parseInt(value.price),
+            qty: parseInt(value.qty)
+        }]);
+	});
 });

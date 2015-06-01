@@ -1,17 +1,8 @@
 <?php
-/**
- * Plugin Name: Respondr for WordPress & WooCommerce
- * Plugin URI: http://www.respondr.io
- * Description: This plugin integrates Respondr.io with your WooCommerce site
- * Version: 1.0
- * Author: Respondr
- * Author URI: http://www.respondr.io
- * License: GPL2
- */
 
-define( 'PLUGIN_URL', plugins_url( '', __FILE__ ) );
+define('PLUGIN_URL', plugins_url( '', __FILE__));
 
-if ( !function_exists('wp_get_current_user') ) {
+if (!function_exists('wp_get_current_user')) {
 	function wp_get_current_user() {
 		require (ABSPATH . WPINC . '/pluggable.php');
 		global $current_user;
@@ -20,9 +11,9 @@ if ( !function_exists('wp_get_current_user') ) {
 	}
 }
 
-require_once( 'classes/respondr-settings.php' );
-require_once( 'classes/respondr-enqueue.php' );
-require_once( 'classes/respondr-piwik.php' );
+require_once('classes/respondr-settings.php');
+require_once('classes/respondr-enqueue.php');
+require_once('classes/respondr-piwik.php');
 
 class respondrMain {
 	
@@ -97,5 +88,3 @@ class respondrMain {
 }
 
 new respondrMain();
-
-?>
