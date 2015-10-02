@@ -7,19 +7,19 @@ class respondrSettings {
 	}
 	
 	function respondrMenus(){
-		add_menu_page( 'Respondr', 'respondr', 'manage_options', 'respondr.php', array( $this, 'respondrSettingsMenu' ), 'dashicons-analytics', 90 );	
+		add_options_page( 'Respondr', 'Respondr', 'manage_options', 'respondr.php', array( $this, 'respondrSettingsMenu' ), 'dashicons-analytics', 95 );	
 	}
 	
 	function respondrSettingsMenu() {
 		// POST ACTION
-		if( isset($_POST) && !empty( $_POST['idsite'] ) ){
-			$idsite = $_POST['idsite'];
+		if( isset($_POST) && !empty( $_POST['siteId'] ) ){
+			$siteId = $_POST['siteId'];
 			
 			if ( get_option( 'respondr_siteid' ) !== false ) {
-				$update = update_option( 'respondr_siteid', $idsite );
+				$update = update_option( 'respondr_siteid', $siteId );
 			} else {
-				$update = add_option( 'respondr_siteid', $idsite );
-				var_dump( $idsite );
+				$update = add_option( 'respondr_siteid', $siteId );
+				var_dump( $siteId );
 			}
 			
 			if( $update ) {
@@ -43,17 +43,18 @@ class respondrSettings {
 				echo '<table class="form-table">';
 					echo '<tr>';
 						echo '<td>';
-							echo '<label for="idsite">IDSITE</label><br/>';
+							echo '<label for="siteId">Site Id</label><br/>';
 						echo '</td>';
 						echo '<td>';
-							echo '<input name="idsite" type="number" required placeholder="IDSITE" ';
+							echo '<input name="siteId" type="text" size="50" required placeholder="siteId" ';
 								if( isset( $currentID ) ) { echo 'value="'.$currentID.'"';}
 							echo ' /><br/>';
-							echo '<span class="description">IDSITE can be found in your Respondr dashboard</span>';
+							echo '<span class="description">Site Id can be found under Account Settings > Sites at www.respondr.io.</span>';
 						echo '</td>';
 					echo '</tr>';
 					echo '<tr><td colspan="2">';
 						echo '<p class="submit"><input type="submit" class="buuton button-primary" value="Save Settings" /></p>';
+						echo '<p>Don\'t have a Respondr account? <a target="_blank" href="https://signup.respondr.io">Sign up</a>.</p>';
 					echo '</td></tr>';
 				echo '</table>';
 			echo '</form>';

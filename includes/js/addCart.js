@@ -9,16 +9,13 @@ $(document).ready(function(){
 		var itemPrice = parseInt(value.price),
 		itemQty = parseInt(value.qty);
 	
-		_paq.push(['addEcommerceItem',
-			value.sku.toString(),
-			value.title,
-			value.cats,
-			itemPrice,
-			itemQty
-		]);	
+		_raq.push(['addEcommerceItem', {
+			sku: value.sku.toString(),
+			name: value.title,
+			categories: value.cats,
+			price: itemPrice,
+			qty: itemQty
+		}]);
 	})
-	
-	
-	_paq.push(['trackEcommerceCartUpdate', cartTotal]);
 	
 });

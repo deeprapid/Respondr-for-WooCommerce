@@ -2,14 +2,14 @@
 /**
  * Plugin Name: Respondr for WordPress & WooCommerce
  * Plugin URI: http://www.respondr.io
- * Description: This plugin integrates Respondr.io with your WooCommerce site
- * Version: 1.0
+ * Description: This plugin installs Respondr into your WooCommerce site
+ * Version: 2.0.0
  * Author: Respondr
  * Author URI: http://www.respondr.io
  * License: GPL2
  */
 
-define( 'PLUGIN_URL', plugins_url( '', __FILE__ ) );
+define( 'RSPNDR_PLUGIN_URL', plugins_url( '', __FILE__ ) );
 
 if ( !function_exists('wp_get_current_user') ) {
 	function wp_get_current_user() {
@@ -22,7 +22,7 @@ if ( !function_exists('wp_get_current_user') ) {
 
 require_once( 'classes/respondr-settings.php' );
 require_once( 'classes/respondr-enqueue.php' );
-require_once( 'classes/respondr-piwik.php' );
+require_once( 'classes/respondr.php' );
 
 class respondrMain {
 	
@@ -32,7 +32,7 @@ class respondrMain {
 		new respondrSettings();
 		
 		global $rpndr;
-		$rpndr = new respondrPiwik();
+		$rpndr = new Respondr();
 		
 		
 		// USER ACTIONS
@@ -42,14 +42,14 @@ class respondrMain {
 		add_action( 'user_register', array( $this, 'save_user' ) );
 		
 		// WOO ORDER
-		//add_action( 'woocommerce_order_status_pending', array( $this, 'newOrder' ) );
+		add_action( 'woocommerce_order_status_pending', array( $this, 'newOrder' ) );
 		
 		
 		// ADD TO CART
 		add_action( 'woocommerce_cart_updated', array( $this, 'addToCart' ) );
 		
-		// VIEW PROD
-		add_action('wp', array( $this, 'prodView' ) );
+		// VIEW PAGE
+		add_action('wp', array( $this, 'pageView' ) );
 		
 
 	}
@@ -68,7 +68,7 @@ class respondrMain {
 	// WOO ORDER CALLBACK
 	function newOrder( $order_id ) {
 		global $rpndr;
-		$rpndr->orderComplete( $order_id );
+		$rpndr->newOrder( $order_id );
 	}
 	
 	// ADD TO CART
@@ -78,18 +78,20 @@ class respondrMain {
 	}
 	
 	// VIEW PROD
-	function prodView(){
+	function pageView($query){
 		global $rpndr;
 		if( 'product' == get_post_type() && !is_archive( 'product_cat' ) ){
 			$rpndr->viewProd();
-		}
-		
-		if( is_archive( 'product_cat' ) ) {
+		} elseif (isset($query->query_vars["s"])) {
+			$rpndr->siteSearch($query->query_vars["s"]);		
+		} elseif ( is_front_page() ) {
+			$rpndr->viewPage();
+		} elseif ( !isset($query->query_vars["cat"]) && is_archive( 'product_cat' ) ) {
 			$rpndr->viewCat();
-		}
-		
-		if( is_page( 'Checkout' ) && isset( $_GET['order-received'] ) ) {
+		} elseif( is_page( 'Checkout' ) && isset( $_GET['order-received'] ) ) {
 			$rpndr->newOrder( $_GET['order-received'] );
+		} else {
+			$rpndr->viewPage();
 		}
 	}
 
