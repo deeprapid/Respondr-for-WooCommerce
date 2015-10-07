@@ -3,7 +3,7 @@
  * Plugin Name: Respondr for WordPress & WooCommerce
  * Plugin URI: http://www.respondr.io
  * Description: This plugin installs Respondr into your WooCommerce site
- * Version: 2.0.0
+ * Version: 2.0.3
  * Author: Respondr
  * Author URI: http://www.respondr.io
  * License: GPL2
@@ -11,73 +11,7 @@
 
 define( 'RSPNDR_PLUGIN_URL', plugins_url( '', __FILE__ ) );
 
-function wp_set_current_user($id, $name = '') {
-	global $current_user;
-
-	if ( isset( $current_user ) && ( $current_user instanceof WP_User ) && ( $id == $current_user->ID ) )
-		return $current_user;
-
-	$current_user = new WP_User( $id, $name );
-
-	setup_userdata( $current_user->ID );
-
-	/**
-	 * Fires after the current user is set.
-	 *
-	 * @since 2.0.1
-	 */
-	do_action( 'set_current_user' );
-
-	return $current_user;
-}
-
-function get_currentuserinfo() {
-	global $current_user;
-
-	if ( ! empty( $current_user ) ) {
-		if ( $current_user instanceof WP_User )
-			return;
-
-		// Upgrade stdClass to WP_User
-		if ( is_object( $current_user ) && isset( $current_user->ID ) ) {
-			$cur_id = $current_user->ID;
-			$current_user = null;
-			wp_set_current_user( $cur_id );
-			return;
-		}
-
-		// $current_user has a junk value. Force to WP_User with ID 0.
-		$current_user = null;
-		wp_set_current_user( 0 );
-		return false;
-	}
-
-	if ( defined('XMLRPC_REQUEST') && XMLRPC_REQUEST ) {
-		wp_set_current_user( 0 );
-		return false;
-	}
-
-	/**
-	 * Filter the current user.
-	 *
-	 * The default filters use this to determine the current user from the
-	 * request's cookies, if available.
-	 *
-	 * Returning a value of false will effectively short-circuit setting
-	 * the current user.
-	 *
-	 * @since 3.9.0
-	 *
-	 * @param int|bool $user_id User ID if one has been determined, false otherwise.
-	 */
-	$user_id = apply_filters( 'determine_current_user', false );
-	if ( ! $user_id ) {
-		wp_set_current_user( 0 );
-		return false;
-	}
-
-	wp_set_current_user( $user_id );
-}
+require (ABSPATH . WPINC . '/pluggable.php');
 
 if ( !function_exists('wp_get_current_user') ) {
 	function wp_get_current_user() {
