@@ -16,4 +16,12 @@ $(document).ready(function(){
 		shipping: shipTotal // (optional) Shipping amount
 	}]);
 
+	// SAVE CONTACT
+	_raq.push(['saveContact', {
+		email: respOrder.email, // (required) Contact's email address
+		firstName: respOrder.firstname, // Contact's first name. Set to false if empty 
+		lastName: respOrder.lastname, // Contact's last name. Set to false if empty 
+		phone: respOrder.phone // Contact's phone number. Set to empty if n/a
+	}]);
+
 });
