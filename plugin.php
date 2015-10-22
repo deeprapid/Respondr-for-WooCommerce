@@ -44,6 +44,7 @@ class respondrMain {
 		
 		// WOO ORDER
 		add_action( 'woocommerce_order_status_pending', array( $this, 'newOrder' ) );
+		add_action( 'woocommerce_thankyou', array( $this, 'newOrder' ) );
 		
 		
 		// ADD TO CART
