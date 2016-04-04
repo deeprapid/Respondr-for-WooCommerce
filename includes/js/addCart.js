@@ -10,6 +10,7 @@ $(document).ready(function(){
 		itemQty = parseInt(value.qty);
 	
 		_raq.push(['addEcommerceItem', {
+			externalId: value.externalId,
 			sku: value.sku.toString(),
 			name: value.title,
 			categories: value.cats,

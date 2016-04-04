@@ -3,6 +3,7 @@ var $ = jQuery;
 $(document).ready(function(){
 	var price = parseInt(respProd.price);
 	_raq.push(['trackProductView', {
+		externalId: respProd.externalId, // (required) ID: Product unique identifier
 		sku: respProd.sku.toString(), // (required) SKU: Product unique identifier
 		name: respProd.title, // (optional) Product name
 		categories: respProd.cats, // (optional) Product category, or array of up to 5 categories
