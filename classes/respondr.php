@@ -29,6 +29,9 @@ class Respondr {
 		global $post, $woocommerce;
 		$wooProd = new WC_Product( $post->ID );
 		
+		// EXTERNAL ID
+		$prod['externalId'] = $post->ID;
+		
 		// SKU
 		$prod['sku'] = $wooProd->get_sku();
 		if( empty( $prodSku ) ){
@@ -73,6 +76,9 @@ class Respondr {
 			$_product = $values['data'];
 			$wooProd = new WC_Product( $_product->id );
 			
+			// EXTERNAL ID
+			$prod['externalId'] = $_product->id;
+		
 			// TITLE
 			$prod['title'] = $_product->post->post_title;
 			
@@ -146,6 +152,9 @@ class Respondr {
 			$prodID = intval( $item['product_id'] );
 			$wooProd = new WC_Product( $prodID );
 			
+			// EXTERNAL ID
+			$prod['externalId'] = $prodID;
+
 			// TITLE
 			$prod['title'] = get_the_title( $prodID );
 			
